@@ -14,10 +14,10 @@ After translating everything and obtaining candidates for fake protein sequences
 
 - `init.py` created directories for outputs and intermediate results
 - `make_db.py` creates a blast database out of the organism's proteome.
-- 'translate_everything.py` translated the genome in 6 reading frames.
+- `translate_everything.py` translates the genome in 6 reading frames.
 - `make_queries.py` creates queries for the tblast search
-- `blastp_search.py` performs blast search. There's a parallel version for running on cluster.
-- `find_fake_prots.py` inspects the results of the blast search and filters out the sequences with significant hits to real proteins.
+- `blastp_search.py` performs blast search. There's a parallel version for running on cluster - `parallel_blastp_search.py`
+- `find_fake_prots.py` inspects the results of the blast search and filters out the sequences with significant hits to real proteins. The version for running on the cluster is `parallel_find_fake_prots.py`
 - `extract_fakes_from_list.py` generates the final output file with the results.
 
 These files need to be executed in the same order.
