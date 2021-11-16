@@ -36,7 +36,7 @@ These files need to be executed in the same order.
 File constants.py describes the paths to this files : adjust if necessary. This file also contains exp_name, which will be the prefix of subsequent directories and files.
 
 ### Details
-1. Run init.py: it will create the directories for logs and intermediate results.
+1. Run `init.py`: it will create the directories for logs and intermediate results.
 
 2. Put the experiment name and paths to the data in `constants.py`
 
