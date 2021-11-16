@@ -8,6 +8,17 @@ import os
 from math import *
 
 
+def check_dirs_for_exp(exp_name):
+    if not os.path.exists("fake_files/" + exp_name):
+        os.makedirs("fake_files/" + exp_name)
+    if not os.path.exists("blastp_search/" + exp_name):
+        os.makedirs("blastp_search/" + exp_name)
+        os.makedirs("blastp_search/" + exp_name + "/blast")
+        os.makedirs("blastp_search/" + exp_name + "/queries")
+    if not os.path.exists("logs/" + exp_name):
+        os.makedirs("logs/" + exp_name)
+
+
 def build_len_hist(array, name='hist.png', log=False, open=False, bins=60, th=-1):
     
     ''' Builds Histogram of lengths'''

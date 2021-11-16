@@ -10,15 +10,14 @@ from math import *
 from tools import *
 from constants import *
 
-#path_fasta = 'Candida_albicans_genome.txt'
-path_fasta = 'results/S_pombe_genome.fasta'
-path_fasta = 'results/Eremothecium_gossypii_ATCC_10895_genome.txt'
+if not os.path.exists("output"):
+    os.makedirs("output")
 
 ##########################################
 ### Extracting FASTA #####################
 ##########################################
 
-chromosomes_fasta = SeqIO.to_dict(SeqIO.parse(path_fasta,'fasta'))
+chromosomes_fasta = SeqIO.to_dict(SeqIO.parse(genome_path, 'fasta'))
 
 ##########################################
 ### Translate everything #################
@@ -49,11 +48,12 @@ for entry in translated_chroms:
         if (stops[i] - stops[i - 1] > AA_TH):
             generated_seqs.append(entry[stops[i - 1] + 1 : stops[i]])
 
-print("number of generated seqs : " + str(len(generated_seqs)))
-const_file = open('myconstants.py', 'w')
-print('NUM = ' + str(len(generated_seqs)), file=const_file)
 
-build_len_hist(generated_seqs, name='ashbya_everything_generated', log=False, open=False, bins=60)
-save_generated(generated_seqs, path="ashbya_all_generated_seqs.fasta", id_="all_seqs")
+print("Number of generated seqs : " + str(len(generated_seqs)))
+NUM_seq_file = open('output/num_sequences.py', 'a')
+print(exp_name + "_NUM = " + str(len(generated_seqs)), file=NUM_seq_file)
+
+build_len_hist(generated_seqs, name="output/" + exp_name + "_all_generated", log=False, open=False, bins=60)
+save_generated(generated_seqs, path="output/" + exp_name + "_all_generated_seqs.fasta", id_="all_seqs")
 
 

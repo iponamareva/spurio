@@ -4,11 +4,12 @@ import sys
 from itertools import islice
 from Bio import SeqIO
 from Bio.Blast.Applications import NcbitblastnCommandline as ncl
+from constants import *
 
-outputfolder = 'blastp_search'
+output_dir = 'blastp_search/' + exp_name
 overwrite = True
 
-#### First -- need to make a database, which is S.cerevisiae ###
+#### To perform this search you need to make a database in db/ ###
 
 def main(argv):
     '''Take command line arguments for fasta sequence and evalue threshold.'''
@@ -23,10 +24,9 @@ if __name__ == "__main__":
 
     for n_entry in range(start, stop):
 
-        fullblast_outname_asn =  outputfolder+'/blast'+'/blastout_'+str(n_entry)+'.asn'
-        fullblast_outname_xml =  outputfolder+'/blast'+'/blastout_'+str(n_entry)+'.xml'
-
-        outname = outputfolder+'/blastout_'+str(n_entry)+'.txt'
+        fullblast_outname_asn =  output_dir + '/blast'+'/blastout_'+str(n_entry)+'.asn'
+        fullblast_outname_xml =  output_dir + '/blast'+'/blastout_'+str(n_entry)+'.xml'
+        outname = output_dir + '/blast'+'/blastout_'+str(n_entry)+'.txt'
 
         for outfile in [fullblast_outname_asn, fullblast_outname_xml, outname]:
             if os.path.exists(outfile) and overwrite:
@@ -39,7 +39,8 @@ if __name__ == "__main__":
 
         dbposition_blank = 'db/database'
 
-        tblastn_cline = ncl(cmd = 'blastp',query = outputfolder+'/queries/querytemp_'+str(n_entry)+'.fasta', db = dbposition_blank, out = fullblast_outname_asn , outfmt= 11, max_target_seqs = 10000, evalue = 1, num_threads = 8)
+        tblastn_cline = ncl(cmd = 'blastp',query = output_dir + '/queries/querytemp_'+str(n_entry)+'.fasta', db = dbposition_blank, out = fullblast_outname_asn , outfmt= 11, max_target_seqs = 10000, evalue = 1, num_threads = 8)
+
         stdout, stderr = tblastn_cline()
         os.system('blast_formatter -archive {} -out {} -outfmt 5'.format(fullblast_outname_asn, fullblast_outname_xml))
         os.system('blast_formatter -archive {} -out {} -outfmt \'7 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore sstrand qseq sseq\''.format(fullblast_outname_asn, outname))

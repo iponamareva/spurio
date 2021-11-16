@@ -2,15 +2,20 @@ import os
 from itertools import islice
 from Bio import SeqIO
 from Bio.Blast.Applications import NcbitblastnCommandline as ncl
-from myconstants import *
+import num_sequences
+from tools import check_dirs_for_exp
+from constants import * 
 
-outputfolder = 'blastp_search/queries'
-queryfasta = 'pombe_all_generated_seqs.fasta'
+NUM = getattr(num_sequences, exp_name + "_NUM")
+print("NUM sequences retrieved:", NUM)
 
-#path_fasta = 'entry.fasta-3.fasta'
+check_dirs_for_exp(exp_name)
+
+output_dir = "blastp_search/" + exp_name + "/queries"
+query_fasta = "output/" + exp_name + "_all_generated_seqs.fasta"
+
 overwrite = True
-
-allqueries = SeqIO.parse(queryfasta,'fasta')
+allqueries = SeqIO.parse(query_fasta, 'fasta')
 
 for n_entry in range(NUM):
-    SeqIO.write(next(allqueries)  , outputfolder+'/querytemp_'+str(n_entry)+'.fasta', 'fasta')
+    SeqIO.write(next(allqueries)  , output_dir+'/querytemp_'+str(n_entry)+'.fasta', 'fasta')
